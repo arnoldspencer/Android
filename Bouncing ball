@@ -1,1 +1,62 @@
+1. Create a new XML layout file: 
 
+// Open res/layout/activity_main.xml and add the following code: 
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <View
+        android:id="@+id/ballView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ball" />
+
+</RelativeLayout> 
+
+// 2. Create a new XML file in res/drawable/ball.xml and add the following code
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#FF5733" />
+</shape>
+
+// 3. open src/com.example.yourappname/MainActivity.java 
+
+package com.example.yourappname;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.RelativeLayout;
+
+public class MainActivity extends Activity {
+
+    private View ballView;
+    private int screenHeight;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ballView = findViewById(R.id.ballView);
+        screenHeight = getResources().getDisplayMetrics().heightPixels;
+
+        startBouncingAnimation();
+    }
+
+    private void startBouncingAnimation() {
+        TranslateAnimation animation = new TranslateAnimation(0, 0, 0, screenHeight);
+        animation.setDuration(2000);
+        animation.setFillAfter(true);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation.setRepeatCount(Animation.INFINITE);
+        ballView.startAnimation(animation);
+    }
+}
